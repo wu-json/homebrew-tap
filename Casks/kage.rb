@@ -34,9 +34,9 @@ cask "kage" do
 
   binary "kage"
 
-  postflight do
-    if system_command("/usr/bin/xattr", args: ["-h"]).exit_status.zero?
-      system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/kage"]
+  postflight_steps do
+    on_macos do
+      run "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "{{staged_path}}/kage"], must_succeed: false
     end
   end
 
